@@ -15,21 +15,24 @@ For example: `$ mv /very/long/path/to/some/file.txt /very/long/path/to/some/file
 ## Installation
 - Install Rust https://www.rust-lang.org/tools/install
 
-- Clone this repository and build it
+- Clone this repository and build it using `make`
 ```
 $ git clone https://github.com/markotikvic/rname
 $ cd rname
-$ cargo build --release
-```
-
-- To install to `/usr/local/bin`
-```
 $ make
+```
+If you don't have make installed run `$ cargo build --release` instead of `$ make` for the 3rd step.
+
+- To install to `/usr/local/bin` using `make`
+```
 $ sudo make install
 ```
 
-### To install anywhere
-- Add `rname` to `PATH` by either updating `$PATH` to show to `target/release` subdirectory of this project or by copying the `target/release/rname` executable to a location that's already in the `$PATH` (e.g. `/usr/local/bin`)
+### Uninstallation
+**IMPORTANT:** Run this only if you've installed `rname` by running `$ sudo make install`.
+```
+$ sudo make uninstall
+```
 
 ## License
 MIT
