@@ -1,10 +1,10 @@
 use rustyline::DefaultEditor;
 use std::{env, fs, path::Path, process};
 
-fn rename_file(source_path_str: &str) -> bool {
-    let source_path = Path::new(source_path_str);
+fn rename_file(target: &str) -> bool {
+    let source_path = Path::new(target);
     if !source_path.exists() {
-        eprintln!("source file '{}' does not exist", source_path_str);
+        eprintln!("source file '{}' does not exist", target);
         return false;
     }
 
@@ -16,23 +16,23 @@ fn rename_file(source_path_str: &str) -> bool {
         }
     };
 
-    let destination_path_str = editor
-        .readline_with_initial("New name: ", (source_path_str, ""))
+    let dest = editor
+        .readline_with_initial("New name: ", (target, ""))
         .unwrap();
 
-    let destination_path = Path::new(&destination_path_str);
-    if destination_path.exists() {
+    let dest_path = Path::new(&dest);
+    if dest_path.exists() {
         eprintln!(
             "can't overrwrite destination: file '{}' already exists",
-            destination_path_str
+            dest
         );
         return false;
     }
 
-    let Ok(_) = fs::rename(source_path, destination_path) else {
-        eprintln!("unable to rename file to '{}'", destination_path_str);
+    if let Err(err) = fs::rename(source_path, dest_path) {
+        eprintln!("unable to rename file: {}", err);
         return false;
-    };
+    }
 
     true
 }
